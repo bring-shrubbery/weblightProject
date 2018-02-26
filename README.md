@@ -1,5 +1,4 @@
 # weblightProject
------------README-----------
 This is a sketch for controlling our 2nd year project. Not everything is optimised in this version, but will be in the next.
 
 To get this thing running you will need 'node.js' with 'npm' and 'mongodb' installed on your computer, then follow these steps:
