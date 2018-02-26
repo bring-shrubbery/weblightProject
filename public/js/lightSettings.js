@@ -179,8 +179,8 @@ function createRGBSlider(sliderType) {
 
 //load light presets from current light of lightArray into lightPresets variable
 function loadLightPresets() {
-  lightPresetItem = lightArray[currentLightId.toString()];
-  lightPresets = [];
+  lightPresetItem = lightArray[currentLightId];
+  lightPresets = {};
 
   if(lightPresetItem["lightPresets"]) {
     lightPresets = lightPresetItem["lightPresets"];
@@ -190,24 +190,24 @@ function loadLightPresets() {
 //save current color as preset into relevant light object in lightArray
 function savePreset() {
   //get number of light presets
+  console.log(lightPresets.length);
   num = 0;
   for(n in lightPresets) {
-      num++;
+    if(lightPresets[n] != null) num++;
   }
 
   //set currentColor to current values of the rgb sliders
   var currentColor = {
-      "r": redSlider,
-      "g": greenSlider,
-      "b": blueSlider,
+    "r": parseInt(redSlider),
+    "g": parseInt(greenSlider),
+    "b": parseInt(blueSlider)
   }
 
   //create new name of the new preset by adding one to number of current presets
-  var clrName = "preset"+(num+1).toString();
   var currentLight = lightArray[currentLightId]; //get current light
   var currentPresetArray = currentLight["lightPresets"]; //get presets array
-  currentPresetArray[clrName] = currentColor; //add new preset
-  lastPreset = clrName; //set last preset var for deleting presets
+  currentPresetArray[num+1] = currentColor; //add new preset
+  lastPreset = num+1; //set last preset var for deleting presets
   setupLightSettings(currentSelectionId);//setup ligth settings UI
 }
 
@@ -232,11 +232,13 @@ function createTemplateColors() {
 
   //create indivitual buttons for presets
   for(preset in lightPresets) {
+    if(lightPresets[preset] != null) {
       quickColor = createDivId(preset.toString());
       quickColor.setAttribute("class", "quickColor");
       quickColor.style.backgroundColor = rgbToHex(lightPresets[preset].r, lightPresets[preset].g, lightPresets[preset].b);
       quickColor.setAttribute("onclick", "setColor(this.id); saveLights();");
       colorSelector.appendChild(quickColor);
+    }
   }
 
   //return created preset bar

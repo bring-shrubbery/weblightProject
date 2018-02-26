@@ -15,9 +15,7 @@ var lightBulbSchema = new Schema({
   g: Number,
   b: Number,
   //light presets storage
-  lightPresets: {
-    preset: {r: Number, g:Number, b:Number}
-  }
+  lightPresets: [{r: Number, g:Number, b:Number}]
 }, {
   //specify what collection we want to get light bulb from
   collection: 'lightBulb'

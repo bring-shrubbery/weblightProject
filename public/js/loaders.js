@@ -27,6 +27,7 @@ function saveLights() {
   xmlhttp.open("POST", "/setLights");
   xmlhttp.setRequestHeader("Content-Type", "application/json");
   xmlhttp.send(JSON.stringify(lightArray));
+  console.log(lightArray);
 }
 
 function saveSwitches() {

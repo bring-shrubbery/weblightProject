@@ -23,26 +23,26 @@ function setupSwitchSettings(switchName) {
      switchSetDiv.appendChild(createNameLabel("Name:", "name"));//add name label
 
      //create name input field
-     nameIn = createInput("nameField", "text", currentSelectionId, "renameSwitch();");
+     nameIn = createInput("nameField", "text", currentSelectionId, "renameSwitch();saveSwitches();");
      switchSetDiv.appendChild(nameIn);//add name field to switch settings div
 
      switchSetDiv.appendChild(createNameLabel("State:", "name"));//create state name label 
 
      //create on button
      onBtn = createNameLabel("ON", "onButton");
-     onBtn.setAttribute("onclick", "switchOn();");
+     onBtn.setAttribute("onclick", "switchOn();saveSwitches();");
      switchSetDiv.appendChild(onBtn);
 
      //create off button
      offBtn = createNameLabel("OFF", "offButton");
-     offBtn.setAttribute("onclick", "switchOff();");
+     offBtn.setAttribute("onclick", "switchOff();saveSwitches();");
      switchSetDiv.appendChild(offBtn);
 
      //create slave id name label
      switchSetDiv.appendChild(createNameLabel("Slave:", "name"));
 
      //create slave id input field
-     slaveNameIn = createInput("slaveField", "text", switchArray[currentSwitchId].slaveid, "setSlave();");
+     slaveNameIn = createInput("slaveField", "text", switchArray[currentSwitchId].slaveid, "setSlave();saveSwitches();");
      switchSetDiv.appendChild(slaveNameIn);
 
      //put switch settings div into settings div
