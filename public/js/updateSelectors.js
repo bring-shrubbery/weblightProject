@@ -6,23 +6,23 @@ var plugSelector = document.getElementById('plugSelector');
 function updateSelectors(state) {
   switch (state) {
     case 'light':
-      lightSelector.style.height = '0.7em';
-      switchSelector.style.height = '1em';
-      plugSelector.style.height = '1em';
+      lightSelector.style.height = '24px';
+      switchSelector.style.height = '30px';
+      plugSelector.style.height = '30px';
     break;
     case 'switch':
-      lightSelector.style.height = '1em';
-      switchSelector.style.height = '0.7em';
-      plugSelector.style.height = '1em';
+      lightSelector.style.height = '30px';
+      switchSelector.style.height = '24px';
+      plugSelector.style.height = '30px';
     break;
     case 'plug':
-      lightSelector.style.height = '1em';
-      switchSelector.style.height = '1em';
-      plugSelector.style.height = '0.7em';
+      lightSelector.style.height = '30px';
+      switchSelector.style.height = '30px';
+      plugSelector.style.height = '24px';
     break;
     default:
-    lightSelector.style.height = '1em';
-    switchSelector.style.height = '1em';
-    plugSelector.style.height = '1em';
+    lightSelector.style.height = '30px';
+    switchSelector.style.height = '30px';
+    plugSelector.style.height = '30px';
   }
 }
