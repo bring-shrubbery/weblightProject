@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <!--head element for setup-->
+  <head>
+    <meta charset="utf-8">
+    <title id="title">Home Control</title>
+    <link rel="stylesheet" type="text/css" href="css/master.css">
+  </head>
+
+  <!--body element of the website-->
+  <body onload="loadLights();updateSelectors('light');">
+    <div class="page">
+      <!--_________device_selector____-->
+      <div id="deviceSelector">
+        <p class="deviceSelector" id="lightSelector" onclick="loadLights();updateSelectors('light');">Lights</p>
+        <p class="deviceSelector" id="switchSelector" onclick="loadSwitches();updateSelectors('switch');">Switches</p>
+        <p class="deviceSelector" id="plugSelector" onclick="loadPlugs();updateSelectors('plug');">Plugs</p>
+      </div>
+      <!--_________devices___________-->
+      <div id="devices">
+        
+      </div>
+
+      <!--_________settings___________-->
+      <div id="settings">
+        
+      </div>
+    </div>
+  </body>
+
+  <!--script loaders-->
+  <script type="text/javascript" src="js/helperFunctions.js"></script>
+  <script type="text/javascript" src="js/loaders.js"></script>
+  <script type="text/javascript" src="js/lightSettings.js"></script>
+  <script type="text/javascript" src="js/switchSettings.js"></script>
+  <script type="text/javascript" src="js/plugSettings.js"></script>
+  <script type="text/javascript" src="js/updateSelectors.js"></script>
+</html>
