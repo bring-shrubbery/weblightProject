@@ -50,6 +50,7 @@ function renameLight() {
      lightArray[currentLightId].name  = nameField;
      //update light list UI
      updateLights();
+     saveLights();
 }
 
 //function for starting of the app, sets up first light
@@ -102,7 +103,7 @@ function setupLightSettings(lightName) {
 
   //put name, input field for name and color picker into light settings div "lightSetDiv"
   lightSetDiv.appendChild(createNameLabel("Name:", "name"));
-  lightSetDiv.appendChild(createInput("nameField", "text", currentSelectionId, "renameLight();saveLights();"));
+  lightSetDiv.appendChild(createInput("nameField", "text", currentSelectionId, "renameLight();"));
   lightSetDiv.appendChild(colorPick);
 
   //create preset color bar
@@ -222,7 +223,7 @@ function createTemplateColors() {
 
   //create delete preset button
   deletePresetBtn = createDivId("deletePreset");
-  deletePresetBtn.setAttribute("onclick", "deletePreset();");
+  deletePresetBtn.setAttribute("onclick", "deletePreset();saveLights();");
   deletePresetBtn.appendChild(document.createTextNode("Delete Preset"));
 
   //put buttons into color selector div
@@ -234,7 +235,7 @@ function createTemplateColors() {
       quickColor = createDivId(preset.toString());
       quickColor.setAttribute("class", "quickColor");
       quickColor.style.backgroundColor = rgbToHex(lightPresets[preset].r, lightPresets[preset].g, lightPresets[preset].b);
-      quickColor.setAttribute("onclick", "setColor(this.id)");
+      quickColor.setAttribute("onclick", "setColor(this.id); saveLights();");
       colorSelector.appendChild(quickColor);
   }
 

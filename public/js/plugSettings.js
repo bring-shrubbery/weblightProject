@@ -33,12 +33,12 @@ function setupPlugSettings(plugName) {
 
      //create on button
      onBtn = createNameLabel("ON", "onButton");
-     onBtn.setAttribute("onclick", "plugOn();");
+     onBtn.setAttribute("onclick", "plugOn();savePlugs();");
      plugSetDiv.appendChild(onBtn);
 
      //create off button
      offBtn = createNameLabel("OFF", "offButton");
-     offBtn.setAttribute("onclick", "plugOff();");
+     offBtn.setAttribute("onclick", "plugOff();savePlugs();");
      plugSetDiv.appendChild(offBtn);
 
      //put plug settings div into settings div
@@ -60,6 +60,7 @@ function renamePlug() {
      //set plug name
      plugArray[currentPlugId].name  = nameField;
      updatePlugs();
+     savePlugs();
 }
 
 //turn plug on
