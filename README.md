@@ -10,4 +10,4 @@ To get this thing running you will need 'node.js' with 'npm' and 'mongodb' insta
 
 KNOWN ISSUES:
 -If database doesn't have any presets, it's impossible to add a new one. Solvable by using classes to define objects instead of directly modifying object.
--Since this version doesn't write anything to database, it will reset state of devices in the list on your left every time that you change category. It resets them to the state saved in database. Solvable by saving changes to database, which is crucial to our project functionality.
+-After changing top left menu a couple of times it stops updating. Works normally after refresh, although stop updating again after some time.
