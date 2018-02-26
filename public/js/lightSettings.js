@@ -170,7 +170,7 @@ function createRGBSlider(sliderType) {
   //set class, is and on input attributes
   slid.setAttribute("class","slider");
   slid.id = sliderType;
-  slid.setAttribute("oninput", "updateColors();");
+  slid.setAttribute("oninput", "updateColors(); saveLights();");
 
   //return created slider
   return slid;
@@ -217,7 +217,7 @@ function createTemplateColors() {
 
   //create save preset button
   savePresetBtn = createDivId("savePreset");
-  savePresetBtn.setAttribute("onclick", "savePreset();");
+  savePresetBtn.setAttribute("onclick", "savePreset(); saveLights();");
   savePresetBtn.appendChild(document.createTextNode("Save Preset"));
 
   //create delete preset button
