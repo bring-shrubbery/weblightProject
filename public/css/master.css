@@ -1,12 +1,6 @@
-html {
-  height: 100%;
-  padding: 0px;
-  margin: 0px;
-}
-
-body {
+body, html {
   background-color: DarkSlateGray;
-  font-family: 'Courier New', Courier;
+  font-family: 'Courier New', Courier, monospace;
   width: 100%;
   height: 100%;
   padding: 0px;
@@ -53,9 +47,7 @@ div#deviceSelector {
 p.deviceSelector {
   background-color: #666;
   text-align: center;
-  padding: 13px 0 0 0;
-  grid-column: auto;
-  font-size: 70%;
+  padding: 12px 0 0 0;
 }
 p.deviceSelector:hover {
   background-color: #888;
@@ -78,9 +70,8 @@ div#devices {
   grid-row: 2 / span 1;
   grid-gap:5px;
   display: grid;
-  grid-template-columns: auto;
   grid-template-rows: repeat(auto-fill, 100px);
-  background: linear-gradient(to bottom right, #DDD, #AAA);
+  background: linear-gradient(to bottom right, #CCC, #BBB);
 }
 
 .light, .switch, .plug {
@@ -272,7 +263,6 @@ div#scheduleSelector {
 input#nameField, input#slaveField {
   padding: 5px;
   margin: 0;
-  font-family: 'Courier New', Courier, monospace;
   font-size: 18pt;
   color: black;
   background-color: #EEE;

@@ -6,19 +6,19 @@ var plugSelector = document.getElementById('plugSelector');
 function updateSelectors(state) {
   switch (state) {
     case 'light':
-      lightSelector.style.height = '24px';
+      lightSelector.style.height = '25px';
       switchSelector.style.height = '30px';
       plugSelector.style.height = '30px';
     break;
     case 'switch':
       lightSelector.style.height = '30px';
-      switchSelector.style.height = '24px';
+      switchSelector.style.height = '25px';
       plugSelector.style.height = '30px';
     break;
     case 'plug':
       lightSelector.style.height = '30px';
       switchSelector.style.height = '30px';
-      plugSelector.style.height = '24px';
+      plugSelector.style.height = '25px';
     break;
     default:
     lightSelector.style.height = '30px';
