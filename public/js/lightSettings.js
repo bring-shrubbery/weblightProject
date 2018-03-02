@@ -112,9 +112,6 @@ function setupLightSettings(lightName) {
   //assign light settings div and preset colors to settings div
   settingsDiv.appendChild(lightSetDiv);
   settingsDiv.appendChild(presetColors);
-  
-  //update light list
-  updateColors();
 }
 
 //sets color to color indicators and rgb sliders

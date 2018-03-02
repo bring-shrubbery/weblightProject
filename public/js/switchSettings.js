@@ -41,17 +41,24 @@ function setupSwitchSettings(switchName) {
      //create slave id name label
      switchSetDiv.appendChild(createNameLabel("Slave:", "name"));
 
+     var slaveNameIn;
      //create slave id input field
      for(light in lightArray) {
           if(lightArray[light].ident == switchArray[currentSwitchId].slaveid) {
-               slaveNameIn = createInput("slaveField", "text", lightArray[light].name, "setSlave();saveSwitches();");
+               slaveNameIn = createInput("slaveField", "text", "", "setSlave();saveSwitches();");
+               break;
           }
      }
 
      for(plug in plugArray) {
           if(plugArray[plug].ident == switchArray[currentSwitchId].slaveid) {
                slaveNameIn = createInput("slaveField", "text", plugArray[plug].name, "setSlave();saveSwitches();");
+               break;
           }
+     }
+
+     if(slaveNameIn == undefined){
+          slaveNameIn = createInput("slaveField", "text", "", "setSlave();saveSwitches();");
      }
      
      switchSetDiv.appendChild(slaveNameIn);
@@ -60,7 +67,6 @@ function setupSwitchSettings(switchName) {
      settingsDiv.appendChild(switchSetDiv);
      
      //update switches list and on/off btn state
-     updateSwitches();
      refreshSwitchToggle();
 }
 
