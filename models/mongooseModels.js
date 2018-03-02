@@ -9,6 +9,7 @@ var ObjectId = Schema.ObjectId;
 var lightBulbSchema = new Schema({
   _id: ObjectId,
   //name
+  ident: String,
   name: String,
    //current rgb values
   r: Number,
@@ -25,6 +26,7 @@ var lightBulbSchema = new Schema({
 var switchSchema1 = new Schema({
   _id: ObjectId,
   //name
+  ident: String,
   name: String,
   //state of the switch
   state: Boolean,
@@ -39,6 +41,7 @@ var switchSchema1 = new Schema({
 var plugSchema1= new Schema({
   _id: ObjectId,
   //name
+  ident: String,
   name: String,
   //state of the plug
   state: Boolean
