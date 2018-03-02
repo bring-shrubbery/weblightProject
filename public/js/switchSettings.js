@@ -42,7 +42,18 @@ function setupSwitchSettings(switchName) {
      switchSetDiv.appendChild(createNameLabel("Slave:", "name"));
 
      //create slave id input field
-     slaveNameIn = createInput("slaveField", "text", switchArray[currentSwitchId].slaveid, "setSlave();saveSwitches();");
+     for(light in lightArray) {
+          if(lightArray[light].ident == switchArray[currentSwitchId].slaveid) {
+               slaveNameIn = createInput("slaveField", "text", lightArray[light].name, "setSlave();saveSwitches();");
+          }
+     }
+
+     for(plug in plugArray) {
+          if(plugArray[plug].ident == switchArray[currentSwitchId].slaveid) {
+               slaveNameIn = createInput("slaveField", "text", plugArray[plug].name, "setSlave();saveSwitches();");
+          }
+     }
+     
      switchSetDiv.appendChild(slaveNameIn);
 
      //put switch settings div into settings div
@@ -69,7 +80,7 @@ function setSlave() {
      //check if the name is one of the switches
      for(light in lightArray) {
           if(lightArray[light].name == slaveNameField.value) {
-               switchArray[currentSwitchId].slaveid = slaveNameField;
+               switchArray[currentSwitchId].slaveid = lightArray[light].ident;
                return;
           }
      }
@@ -77,10 +88,11 @@ function setSlave() {
      //check if the name is one of the plugs
      for(plug in plugArray) {
           if(plugArray[plug].name == slaveNameField.value) {
-               switchArray[currentSwitchId].slaveid = slaveNameField;
+               switchArray[currentSwitchId].slaveid = plugArray[plug].ident;
                return;
           }
      }
+
      
      //give and error if it's not
      alert("You need to enter the name of existing Light or Plug!");

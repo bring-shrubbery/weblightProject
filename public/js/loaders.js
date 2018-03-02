@@ -131,8 +131,6 @@ function updateSwitches() {
     device.setAttribute("onclick","setupSwitchSettings('"+currentSwitch.name+"');");
     devicesDiv.appendChild(device);
   }
-
-  saveSwitches();
 }
 
 function updatePlugs() {
@@ -166,6 +164,4 @@ function updatePlugs() {
     device.setAttribute("onclick","setupPlugSettings('"+currentPlug.name+"');");
     devicesDiv.appendChild(device);
   }
-
-  savePlugs();
 }
