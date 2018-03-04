@@ -9,5 +9,7 @@ To get this thing running you will need 'node.js' with 'npm' and 'mongodb' insta
 5. If everything works as expected, open web browser and enter: 'http://localhost:3000/'
 
 KNOWN ISSUES:
--If database doesn't have any presets, it's impossible to add a new one. Solvable by using classes to define objects instead of directly modifying object.
--After changing top left menu a couple of times it stops updating. Works normally after refresh, although stop updating again after some time.
+none for now
+
+FUTURE FUNCTIONALITY:
+-Scheduler to turn devices on or off depending on time.
