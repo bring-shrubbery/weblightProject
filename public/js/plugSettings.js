@@ -62,7 +62,7 @@ function renamePlug() {
 //turn plug on
 function plugOn() {
      //set state
-     plugArray[currentPlugId].state = true;
+     plugArray[currentPlugId].state = 1;
      //update plug list and button state
      updatePlugs();
      refreshPlugToggle();
@@ -71,7 +71,7 @@ function plugOn() {
 //turn plug off
 function plugOff() {
      //set state
-     plugArray[currentPlugId].state = false;
+     plugArray[currentPlugId].state = 0;
      //update plug list and button state
      updatePlugs();
      refreshPlugToggle();
@@ -85,7 +85,7 @@ function refreshPlugToggle() {
      onBtn = document.getElementById("onButton");
      offBtn = document.getElementById("offButton");
      //set color
-     if(currentPlugState) {
+     if(currentPlugState == 1) {
           onBtn.style.backgroundColor = "#BBB";
           offBtn.style.backgroundColor = "#666";
      } else {

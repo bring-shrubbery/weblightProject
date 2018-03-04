@@ -6,7 +6,7 @@ var switchArray = {};
 var plugArray = {};
 
 //storage for current plug settings
-var currentPlugState = false;
+var currentPlugState = 0;
 var currentPlugId;
 
 //currently selected stuff
@@ -14,7 +14,7 @@ var currentLightId;
 var currentSelectionId;
 
 //current state storage
-var currentSwitchState = false;
+var currentSwitchState = 0;
 var currentSwitchId;
 
 function setupSelectors() {

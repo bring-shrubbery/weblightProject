@@ -120,12 +120,12 @@ function renameSwitch() {
 //switch the switch on
 function switchOn() {
      //set current switch state ON
-     switchArray[currentSwitchId].state = true;
+     switchArray[currentSwitchId].state = 1;
 
      //set plug state if it's attached to the switch
      for(plug in plugArray) {
           if(plugArray[plug].name == switchArray[currentSwitchId].slaveid) {
-               plugArray[plug].state = true;
+               plugArray[plug].state = 1;
           }
      }
 
@@ -145,12 +145,12 @@ function switchOn() {
 //switch current switch off
 function switchOff() {
      //set variable to off
-     switchArray[currentSwitchId].state = false;
+     switchArray[currentSwitchId].state = 0;
 
      //apply state to plug if it is the plug
      for(plug in plugArray) {
           if(plugArray[plug].name == switchArray[currentSwitchId].slaveid) {
-               plugArray[plug].state = false;
+               plugArray[plug].state = 0;
           }
      }
 
@@ -176,7 +176,7 @@ function refreshSwitchToggle() {
      onBtn = document.getElementById("onButton");
      offBtn = document.getElementById("offButton");
      //set colors
-     if(currentSwitchState) {
+     if(currentSwitchState == 1) {
           onBtn.style.backgroundColor = "#BBB";
           offBtn.style.backgroundColor = "#666";
      } else {

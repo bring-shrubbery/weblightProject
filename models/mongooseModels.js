@@ -16,7 +16,9 @@ var lightBulbSchema = new Schema({
   g: Number,
   b: Number,
   //light presets storage
-  lightPresets: [{r: Number, g:Number, b:Number}]
+  lightPresets: [{r: Number, g:Number, b:Number}],
+  onTimes: [],
+  offTimes: []
 }, {
   //specify what collection we want to get light bulb from
   collection: 'lightBulb'
@@ -29,9 +31,11 @@ var switchSchema1 = new Schema({
   ident: String,
   name: String,
   //state of the switch
-  state: Boolean,
+  state: Number,
   //name of the device that is being controlled by the switch
-  slaveid: String
+  slaveid: String,
+  onTimes: [],
+  offTimes: []
 }, {
   //specify what collection we want to get switch from
   collection: 'switch'
@@ -44,7 +48,9 @@ var plugSchema1= new Schema({
   ident: String,
   name: String,
   //state of the plug
-  state: Boolean
+  state: Number,
+  onTimes: [],
+  offTimes: []
 }, {
   collection: 'plug'
 });
