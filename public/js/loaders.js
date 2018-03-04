@@ -18,8 +18,8 @@ var currentSwitchState = 0;
 var currentSwitchId;
 
 function setupSelectors() {
-  if(!lightsReady) getFirstLightAsMain();
-  lightsReady = true;
+  getFirstLightAsMain();
+  
 }
 
 function loadLights(setupSettings) {
@@ -46,6 +46,19 @@ function loadLights(setupSettings) {
           updateLights();
           updateSelectors('light');
           if(setupSettings) setupLightSettings(currentSelectionId);
+
+          if(!lightsReady) {
+            //set selector variables to first item
+            if(lightArray) {
+              currentSelectionId = lightArray[0].name;
+              currentLightId = 0;
+              setCookie("deviceType", "light");
+              setCookie("deviceid",currentLightId);
+              setCookie("selectionid",currentSelectionId);
+              setupLightSettings(currentSelectionId);
+            }
+          }
+          lightsReady = true;
       }
   }
 
@@ -76,9 +89,6 @@ function loadSwitches(setupSettings) {
           updateSelectors('switch');
           if(setupSettings) setupSwitchSettings(currentSelectionId);
 
-      } else {
-        console.log(xmlhttp.status);
-        console.log(xmlhttp.readyState);
       }
   }
 
@@ -138,7 +148,6 @@ function savePlugs() {
 }
 
 function updateLights() {
-  console.log(switchArray);
   //remove existing lights
   while(devicesDiv.hasChildNodes()) {
     devicesDiv.removeChild(devicesDiv.firstChild);

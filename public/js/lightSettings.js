@@ -55,28 +55,22 @@ function getFirstLightAsMain() {
   var currentDeviceCookie = getCookie("deviceid");
   var selectionTypeCookie = getCookie("deviceType");
   if(selectionTypeCookie == "" || selectionTypeCookie == null) {
-    //set selector variables to first item
-    if(lightArray) {
-      currentSelectionId = lightArray[0].name;
-      currentLightId = 0;
-      setCookie("deviceType", "light");
-      setCookie("deviceid",currentLightId);
-      setCookie("selectionid",currentSelectionId);
-    }
     //setup light settings UI
-    setupLightSettings();
-    updateColors(); 
+    loadLights(false);
   } else if(selectionTypeCookie == "light") {
     currentSelectionId = selectionIdCookie;
     currentLightId = parseInt(currentDeviceCookie);
+    lightsReady = true;
     loadLights(true);
   } else if(selectionTypeCookie == "switch") {
     currentSelectionId = selectionIdCookie;
     currentSwitchId = parseInt(currentDeviceCookie);
+    lightsReady = true;
     loadSwitches(true);
   } else if(selectionTypeCookie == "plug") {
     currentSelectionId = selectionIdCookie;
     currentPlugId = parseInt(currentDeviceCookie);
+    lightsReady = true;
     loadPlugs(true);
   }
 }
