@@ -267,6 +267,7 @@ input#nameField, input#slaveField {
   color: black;
   background-color: #EEE;
   grid-column: 2/4;
+  font-family: 'Courier New', Courier, monospace;
 }
 
 input#nameField:active {

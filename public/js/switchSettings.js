@@ -1,6 +1,4 @@
-//current state storage
-var currentSwitchState = false;
-var currentSwitchId;
+
 
 //create Switch settings UI
 function setupSwitchSettings(switchName) {
@@ -44,6 +42,7 @@ function setupSwitchSettings(switchName) {
      var slaveNameIn;
      //create slave id input field
      for(light in lightArray) {
+          
           if(lightArray[light].ident == switchArray[currentSwitchId].slaveid) {
                slaveNameIn = createInput("slaveField", "text", "", "setSlave();saveSwitches();");
                break;

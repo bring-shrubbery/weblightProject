@@ -7,10 +7,6 @@ var blueSlider;
 var lightPresets = [];
 var lastPreset;
 
-//currently selected stuff
-var currentLightId;
-var currentSelectionId;
-
 //settings and color indicator elements
 var settingsDiv = document.getElementById('settings');
 var colorIndicator = document.getElementById('colorIndicator');
@@ -29,9 +25,7 @@ function updateColors() {
     colorIndicator.style.backgroundColor = rgbToHex(redSlider, greenSlider, blueSlider);
 
     //set current color values to lightArray variable
-    lightArray[currentLightId].r = redSlider;
-    lightArray[currentLightId].g = greenSlider;
-    lightArray[currentLightId].b = blueSlider;
+    lightArray[currentLightId].setRGB(redSlider,greenSlider,blueSlider);
 
     //update light list UI
     updateLights();
@@ -42,9 +36,9 @@ function renameLight() {
     //get value of the input field
      var nameField = document.getElementById("nameField").value;
      //check if name is taken
-     checkLightNames(nameField);
-     checkPlugNames(nameField);
-     checkSwitchNames(nameField);
+     if(checkLightNames(nameField)) return;
+     if(checkPlugNames(nameField)) return;
+     if(checkSwitchNames(nameField)) return;
 
      //save name to currently selected light in lightArray 
      lightArray[currentLightId].name  = nameField;
@@ -56,15 +50,36 @@ function renameLight() {
 //function for starting of the app, sets up first light
 //in lightArray as currently selected item for settings
 function getFirstLightAsMain() {
+  //check if there is a current selection cookie
+  var selectionIdCookie = getCookie("selectionid");
+  var currentDeviceCookie = getCookie("deviceid");
+  var selectionTypeCookie = getCookie("deviceType");
+  if(selectionTypeCookie == "" || selectionTypeCookie == null) {
     //set selector variables to first item
     if(lightArray) {
       currentSelectionId = lightArray[0].name;
       currentLightId = 0;
+      setCookie("deviceType", "light");
+      setCookie("deviceid",currentLightId);
+      setCookie("selectionid",currentSelectionId);
     }
     //setup light settings UI
     setupLightSettings();
+    updateColors(); 
+  } else if(selectionTypeCookie == "light") {
+    currentSelectionId = selectionIdCookie;
+    currentLightId = parseInt(currentDeviceCookie);
+    loadLights(true);
+  } else if(selectionTypeCookie == "switch") {
+    currentSelectionId = selectionIdCookie;
+    currentSwitchId = parseInt(currentDeviceCookie);
+    loadSwitches(true);
+  } else if(selectionTypeCookie == "plug") {
+    currentSelectionId = selectionIdCookie;
+    currentPlugId = parseInt(currentDeviceCookie);
+    loadPlugs(true);
+  }
 }
-
 
 //generate UI for light with cpecified parameter
 function setupLightSettings(lightName) {
@@ -168,7 +183,7 @@ function createRGBSlider(sliderType) {
   //set class, is and on input attributes
   slid.setAttribute("class","slider");
   slid.id = sliderType;
-  slid.setAttribute("oninput", "updateColors(); saveLights();");
+  slid.setAttribute("oninput", "saveLights();updateColors(); ");
 
   //return created slider
   return slid;
@@ -215,12 +230,12 @@ function createTemplateColors() {
 
   //create save preset button
   savePresetBtn = createDivId("savePreset");
-  savePresetBtn.setAttribute("onclick", "savePreset(); saveLights();");
+  savePresetBtn.setAttribute("onclick", "savePreset(); saveLights();updateColors();");
   savePresetBtn.appendChild(document.createTextNode("Save Preset"));
 
   //create delete preset button
   deletePresetBtn = createDivId("deletePreset");
-  deletePresetBtn.setAttribute("onclick", "deletePreset();saveLights();");
+  deletePresetBtn.setAttribute("onclick", "deletePreset();saveLights();updateColors();");
   deletePresetBtn.appendChild(document.createTextNode("Delete Preset"));
 
   //put buttons into color selector div
@@ -233,7 +248,7 @@ function createTemplateColors() {
       quickColor = createDivId(preset.toString());
       quickColor.setAttribute("class", "quickColor");
       quickColor.style.backgroundColor = rgbToHex(lightPresets[preset].r, lightPresets[preset].g, lightPresets[preset].b);
-      quickColor.setAttribute("onclick", "setColor(this.id); saveLights();");
+      quickColor.setAttribute("onclick", "setColor(this.id); saveLights();updateColors();");
       colorSelector.appendChild(quickColor);
     }
   }

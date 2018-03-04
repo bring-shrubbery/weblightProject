@@ -8,13 +8,13 @@
   </head>
 
   <!--body element of the website-->
-  <body onload="loadLights();updateSelectors('light');">
+  <body onload="setupSelectors();">
     <div class="page">
       <!--_________device_selector____-->
       <div id="deviceSelector">
-        <p class="deviceSelector" id="lightSelector" onclick="loadLights();updateSelectors('light');">Lights</p>
-        <p class="deviceSelector" id="switchSelector" onclick="loadSwitches();updateSelectors('switch');">Switches</p>
-        <p class="deviceSelector" id="plugSelector" onclick="loadPlugs();updateSelectors('plug');">Plugs</p>
+        <p class="deviceSelector" id="lightSelector" onclick="loadLights(false);">Lights</p>
+        <p class="deviceSelector" id="switchSelector" onclick="loadSwitches(false);">Switches</p>
+        <p class="deviceSelector" id="plugSelector" onclick="loadPlugs(false);">Plugs</p>
       </div>
       <!--_________devices___________-->
       <div id="devices">
@@ -29,6 +29,7 @@
   </body>
 
   <!--script loaders-->
+  <script type="text/javascript" src="js/databaseModels.js"></script>
   <script type="text/javascript" src="js/helperFunctions.js"></script>
   <script type="text/javascript" src="js/loaders.js"></script>
   <script type="text/javascript" src="js/lightSettings.js"></script>

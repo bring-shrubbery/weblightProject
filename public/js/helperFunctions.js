@@ -73,9 +73,10 @@ function checkLightNames(inputText){
   for(light in lightArray) {
        if(lightArray[light].name == inputText) {
             alert("Name '"+inputText+"' is already taken by another light! Please choose different name.");
-            return;
+            return true;
        }
   }
+  return false;
 }
 
 //check if name is not in the plugArray
@@ -83,9 +84,10 @@ function checkPlugNames(inputText){
   for(plug in plugArray) {
        if(plugArray[plug].name == inputText) {
             alert("Name '"+inputText+"' is already taken by another plug! Please choose different name.");
-            return;
+            return true;
        }
   }
+  return false;
 }
 
 //check if name is not in the switchArray
@@ -93,7 +95,37 @@ function checkSwitchNames(inputText){
   for(switchInst in switchArray) {
        if(switchArray[switchInst].name == inputText) {
             alert("Name '"+inputText+"' is already taken by another switch! Please choose different name.");
-            return;
+            return true;
        }
   }
+  return false;
+}
+
+function setSelectionCookie(type, selId, currDev) {
+  setCookie("deviceType", type);
+  setCookie("deviceid", currDev);
+  setCookie("selectionid",selId);
+}
+
+function setCookie(cname,cvalue,exdays) {
+  var d = new Date();
+  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+  var expires = "expires=" + d.toGMTString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+  var name = cname + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ca = decodedCookie.split(';');
+  for(var i = 0; i < ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+      }
+  }
+  return "";
 }

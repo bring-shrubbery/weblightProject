@@ -1,7 +1,3 @@
-//storage for current plug settings
-var currentPlugState = false;
-var currentPlugId;
-
 //function to create all the plug settings UI
 function setupPlugSettings(plugName) {
      //get settings div
