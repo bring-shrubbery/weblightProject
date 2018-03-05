@@ -60,9 +60,9 @@ var LightBulbClass = class LightBulbClass extends BaseItem {
                console.error("RGB values need to be defined!");
                return;
           }
-          this.r = r;
-          this.g = g;
-          this.b = b;
+          this.r = parseInt(r);
+          this.g = parseInt(g);
+          this.b = parseInt(b);
      }
 
      get _lightPresets() {

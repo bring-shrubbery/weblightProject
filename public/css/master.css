@@ -309,3 +309,75 @@ div#onTimes {
   border-width: 2px;
   border-color: #333;
 }
+
+#scheduler {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+  height: 100%;
+  margin: 5px 0 0 0;
+  padding: 0;
+  grid-gap: 5px;
+}
+
+#onTimesDiv, #offTimesDiv {
+  background-color: #888;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 30px 30px auto;
+  padding: 0;
+  margin: 0;
+}
+
+#onTimesBtnAdd, #offTimesBtnAdd,#onTimesBtnDelete, #offTimesBtnDelete {
+  background-color: #555;
+  text-align: center;
+  margin: 2px 0 0 0;
+  grid-column: 2/3;
+}
+
+#onTimesBtnAdd {
+  grid-row: 1/2;
+}
+
+#offTimesBtnDelete {
+  grid-row: 2/3;
+}
+
+#onTimesBtnAdd:hover, #offTimesBtnAdd:hover, #onTimesBtnDelete:hover, #offTimesBtnDelete:hover {
+  background-color: #666;
+}
+
+#onTimesBtnAdd:hover, #offTimesBtnAdd:hover, #onTimesBtnDelete:hover, #offTimesBtnDelete:hover {
+  background-color: #777;
+}
+
+#onTimesInput, #offTimesInput {
+  text-align: center;
+  grid-column: 1/ 2;
+  grid-row: 1/3;
+  font-size: 14pt;
+  padding: 0;
+  margin: 0;
+}
+
+.onTimeInstance {
+  background-color: #777;
+  grid-column: 1/2;
+  grid-row: auto;
+  margin: 2px 0 0 0;
+  padding: 5px;
+  text-align: center;
+}
+
+.onTimeInstance:hover {
+  background-color: #888;
+}
+
+#onTimesList {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(auto-fill, 30px);
+  grid-column: 1/3;
+  grid-row: 3/4;
+}

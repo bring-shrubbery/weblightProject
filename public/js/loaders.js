@@ -26,9 +26,8 @@ function loadLights(setupSettings) {
   var xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = function() {
       if (xmlhttp.readyState==4 && xmlhttp.status==200){
-          lightArray = [];
+          lightArray = {};
           jsonLightArray = JSON.parse(xmlhttp.responseText);
-          console.log(jsonLightArray.length);
           for(lt in jsonLightArray) {
             lightArray[lt] = new LightBulbClass(
               jsonLightArray[lt]._id,
@@ -42,10 +41,6 @@ function loadLights(setupSettings) {
               jsonLightArray[lt].b
             );
           }
-          
-          updateLights();
-          updateSelectors('light');
-          if(setupSettings) setupLightSettings(currentSelectionId);
 
           if(!lightsReady) {
             //set selector variables to first item
@@ -59,6 +54,10 @@ function loadLights(setupSettings) {
             }
           }
           lightsReady = true;
+          
+          updateLights();
+          updateSelectors('light');
+          if(setupSettings) setupLightSettings(currentSelectionId);
       }
   }
 
@@ -71,7 +70,7 @@ function loadSwitches(setupSettings) {
   var xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = function() {
       if (xmlhttp.readyState==4 && xmlhttp.status==200){
-          switchArray = [];
+          switchArray = {};
           jsonSwitchArray = JSON.parse(xmlhttp.responseText);
           for(sw in jsonSwitchArray) {
             switchArray[sw] = new SwitchClass(
@@ -101,7 +100,7 @@ function loadPlugs(setupSettings) {
   var xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = function() {
       if (xmlhttp.readyState==4 && xmlhttp.status==200){
-          plugArray = [];
+          plugArray = {};
           jsonPlugArray = JSON.parse(xmlhttp.responseText);
           for(pl in jsonPlugArray) {
             plugArray[pl] = new PlugClass(
@@ -181,7 +180,6 @@ function updateLights() {
 }
 
 function updateSwitches() {
-  console.log(switchArray);
   //remove existing swithces
   while(devicesDiv.hasChildNodes()) {
     devicesDiv.removeChild(devicesDiv.firstChild);
@@ -204,7 +202,7 @@ function updateSwitches() {
     //create state label
     var stateProp = document.createElement("p");
     stateProp.id = 'state';
-    if(currentSwitch.state === true) {
+    if(currentSwitch.state == 1) {
       stateProp.style.backgroundColor = '#FFF';
     } else {
       stateProp.style.backgroundColor = '#000';
@@ -213,7 +211,7 @@ function updateSwitches() {
 
     //append name and state labels
     device.id = currentSwitch.name;
-    device.setAttribute("onclick","setCurrentSelection(this.id);loadSwitches(true);setSelectionCookie('switch', this.id, "+Switch+");");
+    device.setAttribute("onclick","loadLights(false);setCurrentSelection(this.id);loadSwitches(true);setSelectionCookie('switch', this.id, "+Switch+");");
     devicesDiv.appendChild(device);
   }
 }
@@ -241,7 +239,7 @@ function updatePlugs() {
     //create state label
     var stateProp = document.createElement("p");
     stateProp.id = 'state';
-    if(currentPlug.state === true) {
+    if(currentPlug.state == 1) {
       stateProp.style.backgroundColor = '#FFF';
     } else {
       stateProp.style.backgroundColor = '#000';

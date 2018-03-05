@@ -100,6 +100,7 @@ function setupLightSettings(lightName) {
 
   //create div with id "colorIndicator"
   colorInd = createDivId("colorIndicator");
+  colorInd.style.backgroundColor = rgbToHex(lightArray[light].r,lightArray[light].g,lightArray[light].b);
 
   //create div with class "colorPicker"
   colorPick = createDiv("colorPicker");
@@ -118,9 +119,73 @@ function setupLightSettings(lightName) {
   //create preset color bar
   presetColors = createTemplateColors();
 
+  //scheduler section
+  var schedulerDiv = createDivId("scheduler");
+  var onTimesDiv = createDivId("onTimesDiv");
+  var offTimesDiv = createDivId("offTimesDiv");
+
+  var onTimeInput = createInput("onTimesInput", "time", "00:00", "");
+  var offTimeInput = createInput("offTimesInput", "time", "00:00", "");
+
+  onTimesDiv.appendChild(onTimeInput);
+  offTimesDiv.appendChild(offTimeInput);
+
+  var onTimesAddBtn = createNameLabel("Add On Time","onTimesBtnAdd");
+  onTimesAddBtn.setAttribute("onclick", "addOnTime();setupLightSettings(currentSelectionId);");
+  var offTimesAddBtn = createNameLabel("Add Off Time","offTimesBtnAdd");
+  offTimesAddBtn.setAttribute("onclick", "addOffTime();setupLightSettings(currentSelectionId);");
+
+  var onTimesDeleteBtn = createNameLabel("Delete On Time","onTimesBtnDelete");
+  onTimesDeleteBtn.setAttribute("onclick", "deleteOnTime();setupLightSettings(currentSelectionId);");
+  var offTimesDeleteBtn = createNameLabel("Delete Off Time","offTimesBtnDelete");
+  offTimesDeleteBtn.setAttribute("onclick", "deleteOffTime();setupLightSettings(currentSelectionId);");
+
+  var onArray = lightArray[currentLightId].onTimes;
+  var onTimesList = createOnTimes(onArray);
+  onTimesDiv.appendChild(onTimesList);
+
+  var offArray = lightArray[currentLightId].offTimes;
+  var offTimesList = createOnTimes(offArray);
+  offTimesDiv.appendChild(offTimesList);
+
+  onTimesDiv.appendChild(onTimesAddBtn);
+  offTimesDiv.appendChild(offTimesAddBtn);
+  onTimesDiv.appendChild(onTimesDeleteBtn);
+  offTimesDiv.appendChild(offTimesDeleteBtn);
+
+  schedulerDiv.appendChild(onTimesDiv);
+  schedulerDiv.appendChild(offTimesDiv);
+
   //assign light settings div and preset colors to settings div
   settingsDiv.appendChild(lightSetDiv);
   settingsDiv.appendChild(presetColors);
+  settingsDiv.appendChild(schedulerDiv);
+}
+
+function createOnTimes(onTimesArray) {
+  var onTimesLabelList = createDivId("onTimesList");
+
+  for(ont in onTimesArray) {
+    var onTimeInstance = createNameLabel(onTimesArray[ont], ont);
+    onTimeInstance.setAttribute("onclick", "setCurrentOnTime(this.id)");
+    onTimeInstance.setAttribute("class", "onTimeInstance");
+
+    onTimesLabelList.appendChild(onTimeInstance);
+  }
+  return onTimesLabelList;
+}
+
+function createOffTimes(offTimesArray) {
+  var offTimesLabelList = createDivId("offTimesList");
+
+  for(offt in offTimesArray) {
+    var offTimeInstance = createNameLabel(offTimesArray[offt], offt);
+    offTimeInstance.setAttribute("onclick", "setCurrentOffTime(this.id)");
+    offTimeInstance.setAttribute("class", "offTimeInstance");
+
+    offTimesLabelList.appendChild(onTimeInstance);
+  }
+  return offTimesLabelList;
 }
 
 //sets color to color indicators and rgb sliders
@@ -176,8 +241,10 @@ function createRGBSlider(sliderType) {
 
   //set class, is and on input attributes
   slid.setAttribute("class","slider");
+
   slid.id = sliderType;
-  slid.setAttribute("oninput", "saveLights();updateColors(); ");
+  slid.setAttribute("oninput", "updateColors(); ");
+  slid.setAttribute("onchange", "saveLights(); ");
 
   //return created slider
   return slid;
@@ -196,11 +263,15 @@ function loadLightPresets() {
 //save current color as preset into relevant light object in lightArray
 function savePreset() {
   //get number of light presets
-  console.log(lightPresets.length);
   num = 0;
   for(n in lightPresets) {
     if(lightPresets[n] != null) num++;
   }
+
+  //gets value from sliders
+  redSlider = document.getElementById('redSlider').value;
+  greenSlider = document.getElementById('greenSlider').value;
+  blueSlider = document.getElementById('blueSlider').value;
 
   //set currentColor to current values of the rgb sliders
   var currentColor = {

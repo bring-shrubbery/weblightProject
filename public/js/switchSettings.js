@@ -41,10 +41,11 @@ function setupSwitchSettings(switchName) {
 
      var slaveNameIn;
      //create slave id input field
+     
      for(light in lightArray) {
           
           if(lightArray[light].ident == switchArray[currentSwitchId].slaveid) {
-               slaveNameIn = createInput("slaveField", "text", "", "setSlave();saveSwitches();");
+               slaveNameIn = createInput("slaveField", "text", lightArray[light].name, "setSlave();saveSwitches();");
                break;
           }
      }
@@ -56,7 +57,7 @@ function setupSwitchSettings(switchName) {
           }
      }
 
-     if(slaveNameIn == undefined){
+     if(slaveNameIn === undefined){
           slaveNameIn = createInput("slaveField", "text", "", "setSlave();saveSwitches();");
      }
      
