@@ -12,4 +12,4 @@ KNOWN ISSUES:
 none for now
 
 FUTURE FUNCTIONALITY:
--Scheduler to turn devices on or off depending on time.
+-jQuery implementation
