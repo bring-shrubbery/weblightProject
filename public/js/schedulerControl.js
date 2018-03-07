@@ -2,28 +2,40 @@ var currentOnTimeSelection;
 var currentOffTimeSelection;
 
 function addOnTime() {
-     var time = document.getElementById("onTimesInput").value;
+     var time = $("#onTimesInput").val();
      var selectionTypeCookie = getCookie("deviceType");
 
      if(selectionTypeCookie == "light") {
-          lightArray[currentLightId].onTimes.push(time);
+          var lightOn = lightArray[currentLightId].onTimes;
+
+          lightOn.push(time);
+          lightOn = organiseTimes(lightOn);
           saveLights();
      } else if(selectionTypeCookie == "plug") {
-          plugArray[currentPlugId].onTimes.push(time);
+          var plugOn = plugArray[currentPlugId].onTimes;
+
+          plugOn.push(time);
+          plugOn = organiseTimes(plugOn);
           savePlugs();
      }
 
 }
 
 function addOffTime() {
-     var time = document.getElementById("offTimesInput").value;
+     var time = $("#offTimesInput").val();
      var selectionTypeCookie = getCookie("deviceType");
 
      if(selectionTypeCookie == "light") {
-          lightArray[currentLightId].offTimes.push(time);
+          var lightOff = lightArray[currentLightId].offTimes;
+
+          lightOff.push(time);
+          lightOff = organiseTimes(lightOff);
           saveLights();
      } else if(selectionTypeCookie == "plug") {
-          plugArray[currentPlugId].offTimes.push(time);
+          var plugOff = plugArray[currentPlugId].offTimes;
+
+          plugOff.push(time);
+          plugOff = organiseTimes(plugOff); 
           savePlugs();
      }
 }
@@ -51,10 +63,16 @@ function deleteOffTime () {
      }
 }
 
-function setCurrentOnTime(timeId) {
-     currentOnTimeSelection = timeId;
-}
+function setCurrentOnTime(timeId) { currentOnTimeSelection = timeId; }
+function setCurrentOffTime(timeId) { currentOffTimeSelection = timeId; }
 
-function setCurrentOffTime(timeId) {
-     currentOffTimeSelection = timeId;
+function organiseTimes(arrayToOrganise) {
+     arrayToOrganise.sort();
+     for(o in arrayToOrganise) {
+          if(arrayToOrganise[o] === arrayToOrganise[o-1]) {
+               arrayToOrganise.splice(o, 1);
+               o--;
+          }
+     }
+     return arrayToOrganise;
 }
