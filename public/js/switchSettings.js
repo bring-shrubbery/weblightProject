@@ -3,11 +3,9 @@
 //create Switch settings UI
 function setupSwitchSettings(switchName) {
      //get settings div
-     settingsDiv = document.getElementById('settings');
+     const $settingsDiv = $('#settings');
      //remove averything in the settings div
-     while(settingsDiv.hasChildNodes()) {
-          settingsDiv.removeChild(settingsDiv.firstChild);
-     }
+     $settingsDiv.children().remove();
    
      //find required switch by name and set current state variables
      for(switchId in switchArray){
@@ -17,57 +15,32 @@ function setupSwitchSettings(switchName) {
           }
      }
 
-     switchSetDiv = createDiv("switchSettings");//create switch settings div
-     switchSetDiv.appendChild(createNameLabel("Name:", "name"));//add name label
+     $settingsDiv.append('<div class="switchSettings"></div>');
 
-     //create name input field
-     nameIn = createInput("nameField", "text", currentSelectionId, "renameSwitch();saveSwitches();");
-     switchSetDiv.appendChild(nameIn);//add name field to switch settings div
+     var $switchSetDiv = $('.switchSettings');
+     $switchSetDiv.append('<p id="name">Name:</p>');
+     switchSetDiv.append('<input id="nameField" type="text" onchange="renameSwitch();">'+currentSelectionId+'</input>');
 
-     switchSetDiv.appendChild(createNameLabel("State:", "name"));//create state name label 
-
-     //create on button
-     onBtn = createNameLabel("ON", "onButton");
-     onBtn.setAttribute("onclick", "switchOn();saveSwitches();");
-     switchSetDiv.appendChild(onBtn);
-
-     //create off button
-     offBtn = createNameLabel("OFF", "offButton");
-     offBtn.setAttribute("onclick", "switchOff();saveSwitches();");
-     switchSetDiv.appendChild(offBtn);
-
-     //create slave id name label
-     switchSetDiv.appendChild(createNameLabel("Slave:", "name"));
-
-     var slaveNameIn;
-     //create slave id input field
+     $switchSetDiv.append('<p id="name">Slave:</p>');
      
+     var slaveIdentified = false;
      for(light in lightArray) {
-          
           if(lightArray[light].ident == switchArray[currentSwitchId].slaveid) {
-               slaveNameIn = createInput("slaveField", "text", lightArray[light].name, "setSlave();saveSwitches();");
+               $switchSetDiv.append('<input id="slaveField" type="text" onchange="setSlave();">'+lightArray[light].name+'</input>');
+               slaveIdentified = true;
                break;
           }
      }
 
      for(plug in plugArray) {
           if(plugArray[plug].ident == switchArray[currentSwitchId].slaveid) {
-               slaveNameIn = createInput("slaveField", "text", plugArray[plug].name, "setSlave();saveSwitches();");
+               $switchSetDiv.append('<input id="slaveField" type="text" onchange="setSlave();">'+plugArray[plug].name+'</input>');
+               slaveIdentified = true;
                break;
           }
      }
 
-     if(slaveNameIn === undefined){
-          slaveNameIn = createInput("slaveField", "text", "", "setSlave();saveSwitches();");
-     }
-     
-     switchSetDiv.appendChild(slaveNameIn);
-
-     //put switch settings div into settings div
-     settingsDiv.appendChild(switchSetDiv);
-     
-     //update switches list and on/off btn state
-     refreshSwitchToggle();
+     if(slaveIdentified) $switchSetDiv.append('<input id="slaveField" type="text" onchange="setSlave();"></input>');
 }
 
 //set slave
@@ -87,6 +60,7 @@ function setSlave() {
      for(light in lightArray) {
           if(lightArray[light].name == slaveNameField.value) {
                switchArray[currentSwitchId].slaveid = lightArray[light].ident;
+               saveSwitches();
                return;
           }
      }
@@ -95,6 +69,7 @@ function setSlave() {
      for(plug in plugArray) {
           if(plugArray[plug].name == slaveNameField.value) {
                switchArray[currentSwitchId].slaveid = plugArray[plug].ident;
+               saveSwitches();
                return;
           }
      }
@@ -107,7 +82,7 @@ function setSlave() {
 //rename switch
 function renameSwitch() {
      //get name field value
-     var nameField = document.getElementById("nameField").value;
+     var nameField = $("#nameField").val();
      //check if name is valid
      checkLightNames(nameField);
      checkPlugNames(nameField);
@@ -116,72 +91,5 @@ function renameSwitch() {
      switchArray[currentSwitchId].name  = nameField;
      //update switches list
      updateSwitches();
-}
-
-//switch the switch on
-function switchOn() {
-     //set current switch state ON
-     switchArray[currentSwitchId].state = 1;
-
-     //set plug state if it's attached to the switch
-     for(plug in plugArray) {
-          if(plugArray[plug].name == switchArray[currentSwitchId].slaveid) {
-               plugArray[plug].state = 1;
-          }
-     }
-
-     //set light state if it's attachesd to the switch
-     for(light in lightArray) {
-          if(lightArray[light].name == switchArray[currentSwitchId].slaveid) {
-               lightArray[light].r = "255";
-               lightArray[light].g = "255";
-               lightArray[light].b = "255";
-          }
-     }
-     //update on/off button state nad switches list
-     refreshSwitchToggle();
-     updateSwitches();
-}
-
-//switch current switch off
-function switchOff() {
-     //set variable to off
-     switchArray[currentSwitchId].state = 0;
-
-     //apply state to plug if it is the plug
-     for(plug in plugArray) {
-          if(plugArray[plug].name == switchArray[currentSwitchId].slaveid) {
-               plugArray[plug].state = 0;
-          }
-     }
-
-     //set state to a light if it is the light
-     for(light in lightArray) {
-          if(lightArray[light].name == switchArray[currentSwitchId].slaveid) {
-               lightArray[light].r = "0";
-               lightArray[light].g = "0";
-               lightArray[light].b = "0";
-          }
-     }
-     //update on/off button state and update switches list
-     refreshSwitchToggle();
-     updateSwitches();
-     console.log(switchArray[currentSwitchId].state);
-}
-
-//update on/off button state
-function refreshSwitchToggle() {
-     //get current switch state
-     currentSwitchState = switchArray[currentSwitchId].state;
-     //get on and off buttons
-     onBtn = document.getElementById("onButton");
-     offBtn = document.getElementById("offButton");
-     //set colors
-     if(currentSwitchState == 1) {
-          onBtn.style.backgroundColor = "#BBB";
-          offBtn.style.backgroundColor = "#666";
-     } else {
-          onBtn.style.backgroundColor = "#666";
-          offBtn.style.backgroundColor = "#BBB";
-     }
+     saveSwitches();
 }
