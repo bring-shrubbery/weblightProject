@@ -1,5 +1,3 @@
-
-
 //create Switch settings UI
 function setupSwitchSettings(switchName) {
      //get settings div
@@ -19,14 +17,15 @@ function setupSwitchSettings(switchName) {
 
      var $switchSetDiv = $('.switchSettings');
      $switchSetDiv.append('<p id="name">Name:</p>');
-     switchSetDiv.append('<input id="nameField" type="text" onchange="renameSwitch();">'+currentSelectionId+'</input>');
+     $switchSetDiv.append('<input id="nameField" type="text" onchange="renameSwitch();" value="currentSelectionId" ></input>');
 
      $switchSetDiv.append('<p id="name">Slave:</p>');
      
      var slaveIdentified = false;
+
      for(light in lightArray) {
           if(lightArray[light].ident == switchArray[currentSwitchId].slaveid) {
-               $switchSetDiv.append('<input id="slaveField" type="text" onchange="setSlave();">'+lightArray[light].name+'</input>');
+               $switchSetDiv.append('<input id="slaveField" type="text" onchange="setSlave();" value="'+lightArray[light].name+'"></input>');
                slaveIdentified = true;
                break;
           }
@@ -34,13 +33,13 @@ function setupSwitchSettings(switchName) {
 
      for(plug in plugArray) {
           if(plugArray[plug].ident == switchArray[currentSwitchId].slaveid) {
-               $switchSetDiv.append('<input id="slaveField" type="text" onchange="setSlave();">'+plugArray[plug].name+'</input>');
+               $switchSetDiv.append('<input id="slaveField" type="text" onchange="setSlave();" value="'+plugArray[plug].name+'"></input>');
                slaveIdentified = true;
                break;
           }
      }
 
-     if(slaveIdentified) $switchSetDiv.append('<input id="slaveField" type="text" onchange="setSlave();"></input>');
+     if(!slaveIdentified) $switchSetDiv.append('<input id="slaveField" type="text" onchange="setSlave();"></input>');
 }
 
 //set slave

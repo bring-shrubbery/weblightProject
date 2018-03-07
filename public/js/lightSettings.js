@@ -9,20 +9,17 @@ var lastPreset;
 
 //settings and color indicator elements
 var settingsDiv = document.getElementById('settings');
-var colorIndicator = document.getElementById('colorIndicator');
+var $colorIndicator = $('#colorIndicator');
 
 //updates colors in lightArray for currently selected light
 function updateColors() {
-    //gets color indicator element
-    colorIndicator = document.getElementById('colorIndicator');
-
     //gets value from sliders
-    redSlider = document.getElementById('redSlider').value;
-    greenSlider = document.getElementById('greenSlider').value;
-    blueSlider = document.getElementById('blueSlider').value;
+    redSlider = $('#redSlider').val();
+    greenSlider = $('#greenSlider').val();
+    blueSlider = $('#blueSlider').val();
 
     //set color indicator color to current color
-    colorIndicator.style.backgroundColor = rgbToHex(redSlider, greenSlider, blueSlider);
+    $('#colorIndicator').css('backgroundColor', rgbToHex(redSlider, greenSlider, blueSlider));
 
     //set current color values to lightArray variable
     lightArray[currentLightId].setRGB(redSlider,greenSlider,blueSlider);
@@ -34,17 +31,17 @@ function updateColors() {
 //function for renaming light
 function renameLight() {
     //get value of the input field
-     var nameField = document.getElementById("nameField").value;
-     //check if name is taken
-     if(checkLightNames(nameField)) return;
-     if(checkPlugNames(nameField)) return;
-     if(checkSwitchNames(nameField)) return;
+    var nameField = $("#nameField").val();
+    //check if name is taken
+    if(checkLightNames(nameField)) return;
+    if(checkPlugNames(nameField)) return;
+    if(checkSwitchNames(nameField)) return;
 
-     //save name to currently selected light in lightArray 
-     lightArray[currentLightId].name  = nameField;
-     //update light list UI
-     updateLights();
-     saveLights();
+    //save name to currently selected light in lightArray 
+    lightArray[currentLightId].name  = nameField;
+    //update light list UI
+    updateLights();
+    saveLights();
 }
 
 //function for starting of the app, sets up first light
@@ -78,11 +75,9 @@ function getFirstLightAsMain() {
 //generate UI for light with cpecified parameter
 function setupLightSettings(lightName) {
   //get settings div
-  settingsDiv = document.getElementById('settings');
+  $settingsDiv = $('#settings');
   //remove everything from settings div
-  while(settingsDiv.hasChildNodes()) {
-      settingsDiv.removeChild(settingsDiv.firstChild);
-  }
+  $settingsDiv.children().remove();
 
   //set current selection variables
   for(light in lightArray){
@@ -96,106 +91,77 @@ function setupLightSettings(lightName) {
   loadLightPresets();
   
   //create div with class "lightSettings"
-  lightSetDiv = createDiv("lightSettings");
+  $settingsDiv.append('<div class="lightSettings"></div>');
+  $lightSetDiv = $('.lightSettings');
+  $lightSetDiv.append('<p id="name">Name:</p>');
 
-  //create div with id "colorIndicator"
-  colorInd = createDivId("colorIndicator");
-  colorInd.style.backgroundColor = rgbToHex(lightArray[light].r,lightArray[light].g,lightArray[light].b);
+  $lightSetDiv.append('<input id="nameField" type="text" value="'+currentSelectionId+'" onchange="renameLight();"></input>');
 
-  //create div with class "colorPicker"
-  colorPick = createDiv("colorPicker");
-
-  //put SLIDERS and COLOR INDICATOR into color picker div
-  colorPick.appendChild(createRGBSlider("redSlider"));
-  colorPick.appendChild(createRGBSlider("greenSlider"));
-  colorPick.appendChild(createRGBSlider("blueSlider"));
-  colorPick.appendChild(colorInd);
-
-  //put name, input field for name and color picker into light settings div "lightSetDiv"
-  lightSetDiv.appendChild(createNameLabel("Name:", "name"));
-  lightSetDiv.appendChild(createInput("nameField", "text", currentSelectionId, "renameLight();"));
-  lightSetDiv.appendChild(colorPick);
+  $lightSetDiv.append('<div class="colorPicker"></div>');
+  $colorPick = $('.colorPicker');
+  
+  //create rgb sliders
+  $colorPick.append('<input id="redSlider" type="range" min="0" max="255" class="slider" oninput="updateColors();" onchange"saveLights();" value="'+lightArray[currentLightId].r+'"></input>');
+  $colorPick.append('<input id="greenSlider" type="range" min="0" max="255" class="slider" oninput="updateColors();" onchange"saveLights();" value="'+lightArray[currentLightId].g+'"></input>');
+  $colorPick.append('<input id="blueSlider" type="range" min="0" max="255" class="slider" oninput="updateColors();" onchange"saveLights();" value="'+lightArray[currentLightId].b+'"></input>');
+  
+  //create color indicator and control it's color
+  $colorPick.append('<div id="colorIndicator"></div>');
+  $colorInd = $('#colorIndicator');
+  $colorInd.css('backgroundColor', rgbToHex(lightArray[light].r,lightArray[light].g,lightArray[light].b));
 
   //create preset color bar
-  presetColors = createTemplateColors();
+  $settingsDiv.append(createTemplateColors());
 
   //scheduler section
-  var schedulerDiv = createDivId("scheduler");
-  var onTimesDiv = createDivId("onTimesDiv");
-  var offTimesDiv = createDivId("offTimesDiv");
+  $settingsDiv.append('<div id="scheduler"></div>');
+  var $schedulerDiv = $('#scheduler');
 
-  var onTimeInput = createInput("onTimesInput", "time", "00:00", "");
-  var offTimeInput = createInput("offTimesInput", "time", "00:00", "");
+  //scheduler on and off times sections
+  $schedulerDiv.append('<div id="onTimesDiv"></div>');
+  $schedulerDiv.append('<div id="offTimesDiv"></div>');
+  var $onTimesDiv = $('#onTimesDiv');
+  var $offTimesDiv = $('#offTimesDiv');
 
-  onTimesDiv.appendChild(onTimeInput);
-  offTimesDiv.appendChild(offTimeInput);
+  $onTimesDiv.append('<input id="onTimesInput" type="time" value="00:00"></input>');
+  $offTimesDiv.append('<input id="offTimesInput" type="time" value="00:00"></input>');
 
-  var onTimesAddBtn = createNameLabel("Add On Time","onTimesBtnAdd");
-  onTimesAddBtn.setAttribute("onclick", "addOnTime();setupLightSettings(currentSelectionId);");
-  var offTimesAddBtn = createNameLabel("Add Off Time","offTimesBtnAdd");
-  offTimesAddBtn.setAttribute("onclick", "addOffTime();setupLightSettings(currentSelectionId);");
+  //create time add button
+  $onTimesDiv.append('<p id="onTimesBtnAdd" onclick="addOnTime();setupLightSettings(currentSelectionId);">Add ON Time</p>');
+  $offTimesDiv.append('<p id="offTimesBtnAdd" onclick="addOffTime();setupLightSettings(currentSelectionId);">Add OFF Time</p>');
 
-  var onTimesDeleteBtn = createNameLabel("Delete On Time","onTimesBtnDelete");
-  onTimesDeleteBtn.setAttribute("onclick", "deleteOnTime();setupLightSettings(currentSelectionId);");
-  var offTimesDeleteBtn = createNameLabel("Delete Off Time","offTimesBtnDelete");
-  offTimesDeleteBtn.setAttribute("onclick", "deleteOffTime();setupLightSettings(currentSelectionId);");
+  //create times delete buttons
+  $onTimesDiv.append('<p id="onTimesBtnDelete" onclick="deleteOnTime();setupLightSettings(currentSelectionId);">Delete ON Time</p>');
+  $offTimesDiv.append('<p id="offTimesBtnDelete" onclick="deleteOffTime();setupLightSettings(currentSelectionId);">Delete OFF Time</p>');
 
+  //create on times list
   var onArray = lightArray[currentLightId].onTimes;
-  var onTimesList = createOnTimes(onArray);
-  onTimesDiv.appendChild(onTimesList);
+  $onTimesDiv.append('<div id="onTimesList"></div>');
+  $onTimesList = $('#onTimesList');
 
+  for(ont in onArray) {
+    $onTimesList.append('<p id="'+ont+'" onclick="setCurrentOnTime(this.id)" class="onTimeInstance">'+onArray[ont]+'</p>');
+  }
+
+  //create off times list
   var offArray = lightArray[currentLightId].offTimes;
-  var offTimesList = createOnTimes(offArray);
-  offTimesDiv.appendChild(offTimesList);
+  $offTimesDiv.append('<div id="offTimesList"></div>');
+  $offTimesList = $('#offTimesList');
 
-  onTimesDiv.appendChild(onTimesAddBtn);
-  offTimesDiv.appendChild(offTimesAddBtn);
-  onTimesDiv.appendChild(onTimesDeleteBtn);
-  offTimesDiv.appendChild(offTimesDeleteBtn);
-
-  schedulerDiv.appendChild(onTimesDiv);
-  schedulerDiv.appendChild(offTimesDiv);
-
-  //assign light settings div and preset colors to settings div
-  settingsDiv.appendChild(lightSetDiv);
-  settingsDiv.appendChild(presetColors);
-  settingsDiv.appendChild(schedulerDiv);
-}
-
-function createOnTimes(onTimesArray) {
-  var onTimesLabelList = createDivId("onTimesList");
-
-  for(ont in onTimesArray) {
-    var onTimeInstance = createNameLabel(onTimesArray[ont], ont);
-    onTimeInstance.setAttribute("onclick", "setCurrentOnTime(this.id)");
-    onTimeInstance.setAttribute("class", "onTimeInstance");
-
-    onTimesLabelList.appendChild(onTimeInstance);
+  for(offt in offArray) {
+    $offTimesList.append('<p id="'+offt+'" onclick="setCurrentOffTime(this.id)" class="offTimeInstance">'+offArray[offt]+'</p>');
   }
-  return onTimesLabelList;
-}
 
-function createOffTimes(offTimesArray) {
-  var offTimesLabelList = createDivId("offTimesList");
-
-  for(offt in offTimesArray) {
-    var offTimeInstance = createNameLabel(offTimesArray[offt], offt);
-    offTimeInstance.setAttribute("onclick", "setCurrentOffTime(this.id)");
-    offTimeInstance.setAttribute("class", "offTimeInstance");
-
-    offTimesLabelList.appendChild(onTimeInstance);
-  }
-  return offTimesLabelList;
 }
 
 //sets color to color indicators and rgb sliders
 function setColor(idOfColor) {
   //gets background color of preset selected
-  colorOfDiv = document.getElementById(idOfColor).style.backgroundColor;
+  var colorOfDiv = $("#"+idOfColor).css.backgroundColor;
   //gets color indicator element
-  colorIndicator = document.getElementById('colorIndicator');
+  var $colorIndicator = $('#colorIndicator');
   //assigns color of the preset to color indicator
-  colorIndicator.style.backgroundColor = colorOfDiv;
+  $colorIndicator.css(backgroundColor, colorOfDiv);
 
   //sets last preset to id of the preset, which is the name of the preset
   lastPreset = idOfColor;
@@ -204,9 +170,9 @@ function setColor(idOfColor) {
   rgbColor = getRGB(colorOfDiv);
 
   //sets slider values to current color
-  document.getElementById('redSlider').value = rgbColor.r;
-  document.getElementById('greenSlider').value = rgbColor.g;
-  document.getElementById('blueSlider').value = rgbColor.b;
+  $('#redSlider').val() = rgbColor.r;
+  $('#greenSlider').val() = rgbColor.g;
+  $('#blueSlider').val() = rgbColor.b;
 
   //updates lightArray values to current color values
   lightArray[currentLightId].r = rgbColor.r;
@@ -215,39 +181,6 @@ function setColor(idOfColor) {
 
   //update light selection list
   updateLights();
-}
-
-//function to create rgb slider
-function createRGBSlider(sliderType) {
-  //create input element with specified properties
-  slid = document.createElement('input');
-  slid.type = "range";
-  slid.min = "0";
-  slid.max = "255";
-  //set values depending on the type of slider
-  switch(sliderType) {
-      case "redSlider":
-      slid.value = lightArray[currentLightId].r;
-      break;
-      case "greenSlider":
-      slid.value = lightArray[currentLightId].g;
-      break;
-      case "blueSlider":
-      slid.value = lightArray[currentLightId].b;
-      break;
-      default:
-      console.warn("Slider Type is invalid!");
-  }
-
-  //set class, is and on input attributes
-  slid.setAttribute("class","slider");
-
-  slid.id = sliderType;
-  slid.setAttribute("oninput", "updateColors(); ");
-  slid.setAttribute("onchange", "saveLights(); ");
-
-  //return created slider
-  return slid;
 }
 
 //load light presets from current light of lightArray into lightPresets variable
@@ -269,9 +202,9 @@ function savePreset() {
   }
 
   //gets value from sliders
-  redSlider = document.getElementById('redSlider').value;
-  greenSlider = document.getElementById('greenSlider').value;
-  blueSlider = document.getElementById('blueSlider').value;
+  redSlider = $('#redSlider').val();
+  greenSlider = $('#greenSlider').val();
+  blueSlider = $('#blueSlider').val();
 
   //set currentColor to current values of the rgb sliders
   var currentColor = {
@@ -291,35 +224,30 @@ function savePreset() {
 //create presets UI
 function createTemplateColors() {
   //create color selector div
-  colorSelector = createDivId("quickColorSelector");
+  colorSelector = '<div id="quickColorSelector">';
 
   //create save preset button
-  savePresetBtn = createDivId("savePreset");
-  savePresetBtn.setAttribute("onclick", "savePreset(); saveLights();updateColors();");
-  savePresetBtn.appendChild(document.createTextNode("Save Preset"));
+  savePresetBtn = '<div id="savePreset" onclick="savePreset(); saveLights();updateColors();">Save Preset</div>';
 
   //create delete preset button
-  deletePresetBtn = createDivId("deletePreset");
-  deletePresetBtn.setAttribute("onclick", "deletePreset();saveLights();updateColors();");
-  deletePresetBtn.appendChild(document.createTextNode("Delete Preset"));
+  deletePresetBtn = '<div id="deletePreset" onclick="deletePreset();saveLights();updateColors();">Delete Preset</div>';
 
   //put buttons into color selector div
-  colorSelector.appendChild(savePresetBtn);
-  colorSelector.appendChild(deletePresetBtn);
+  colorSelector += savePresetBtn;
+  colorSelector += deletePresetBtn;
 
   //create indivitual buttons for presets
   for(preset in lightPresets) {
     if(lightPresets[preset] != null) {
-      quickColor = createDivId(preset.toString());
-      quickColor.setAttribute("class", "quickColor");
-      quickColor.style.backgroundColor = rgbToHex(lightPresets[preset].r, lightPresets[preset].g, lightPresets[preset].b);
-      quickColor.setAttribute("onclick", "setColor(this.id); saveLights();updateColors();");
-      colorSelector.appendChild(quickColor);
+      var quickColor = '<div id="'+preset.toString()+'" class="quickColor" onclick="setColor(this.id); saveLights();updateColors();"'
+      quickColor += 'style="background-color:'+rgbToHex(lightPresets[preset].r, lightPresets[preset].g, lightPresets[preset].b)+'"></div>';
+      
+      colorSelector += quickColor;
     }
   }
 
   //return created preset bar
-  return colorSelector;
+  return colorSelector+'</div>';
 }
 
 //delete last selected preset
