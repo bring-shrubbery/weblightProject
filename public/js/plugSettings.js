@@ -86,7 +86,7 @@ function setupPlugSettings(plugName) {
 //rename plug function
 function renamePlug() {
       //get namefield input element
-     var nameField = document.getElementById("nameField").value;
+     var nameField = $("#nameField").val();
      //check if name is valid
      checkLightNames(nameField);
      checkPlugNames(nameField);
@@ -120,14 +120,14 @@ function refreshPlugToggle() {
      //get current state
      currentPlugState = plugArray[currentPlugId].state;
      //get on and off button elements
-     onBtn = document.getElementById("onButton");
-     offBtn = document.getElementById("offButton");
+     var $onBtn = $("#onButton");
+     var $offBtn = $("$offButton");
      //set color
      if(currentPlugState == 1) {
-          onBtn.style.backgroundColor = "#BBB";
-          offBtn.style.backgroundColor = "#666";
+          $onBtn.css(backgroundColor, "#BBB");
+          $offBtn.css(backgroundColor, "#666");
      } else {
-          onBtn.style.backgroundColor = "#666";
-          offBtn.style.backgroundColor = "#BBB";
+          $onBtn.css(backgroundColor, "#666");
+          $offBtn.css(backgroundColor, "#BBB");
      }
 }
