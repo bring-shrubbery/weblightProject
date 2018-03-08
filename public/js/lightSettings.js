@@ -101,9 +101,9 @@ function setupLightSettings(lightName) {
   $colorPick = $('.colorPicker');
   
   //create rgb sliders
-  $colorPick.append('<input id="redSlider" type="range" min="0" max="255" class="slider" oninput="updateColors();" onchange"saveLights();" value="'+lightArray[currentLightId].r+'"></input>');
-  $colorPick.append('<input id="greenSlider" type="range" min="0" max="255" class="slider" oninput="updateColors();" onchange"saveLights();" value="'+lightArray[currentLightId].g+'"></input>');
-  $colorPick.append('<input id="blueSlider" type="range" min="0" max="255" class="slider" oninput="updateColors();" onchange"saveLights();" value="'+lightArray[currentLightId].b+'"></input>');
+  $colorPick.append('<input id="redSlider" type="range" min="0" max="255" class="slider" oninput="updateColors();" onchange="saveLights();" value="'+lightArray[currentLightId].r+'"></input>');
+  $colorPick.append('<input id="greenSlider" type="range" min="0" max="255" class="slider" oninput="updateColors();" onchange="saveLights();" value="'+lightArray[currentLightId].g+'"></input>');
+  $colorPick.append('<input id="blueSlider" type="range" min="0" max="255" class="slider" oninput="updateColors();" onchange="saveLights();" value="'+lightArray[currentLightId].b+'"></input>');
   
   //create color indicator and control it's color
   $colorPick.append('<div id="colorIndicator"></div>');
