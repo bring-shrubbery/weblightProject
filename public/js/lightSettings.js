@@ -151,7 +151,6 @@ function setupLightSettings(lightName) {
   for(offt in offArray) {
     $offTimesList.append('<p id="'+offt+'" onclick="setCurrentOffTime(this.id)" class="offTimeInstance">'+offArray[offt]+'</p>');
   }
-
 }
 
 //sets color to color indicators and rgb sliders

@@ -1,11 +1,9 @@
 //function to create all the plug settings UI
 function setupPlugSettings(plugName) {
       //get settings div
-      settingsDiv = document.getElementById('settings');
+      $settingsDiv = $('#settings');
       //remove everything from the settings div
-      while(settingsDiv.hasChildNodes()) {
-            settingsDiv.removeChild(settingsDiv.firstChild);
-      }
+      $settingsDiv.children().remove();
    
      //assign the plug that is used right now to pointer variables
       for(plug in plugArray){
@@ -16,67 +14,55 @@ function setupPlugSettings(plugName) {
       }
 
       //create plgus settings div
-      var plugSetDiv = createDiv("plugSettings");
+      $settingsDiv.append('<div class="plugSettings"></div>');
+      var $plugSetDiv = $('.plugSettings');
       //create name label
-      plugSetDiv.appendChild(createNameLabel("Name:", "name"));
+      $plugSetDiv.append('<p id="name">Name:</p>');
 
       //create name field input
-      var nameIn = createInput("nameField", "text", currentSelectionId, "renamePlug();");
-      plugSetDiv.appendChild(nameIn);
+      $plugSetDiv.append('<input id="nameField" type="text" onchange="renamePlug();" value="'+currentSelectionId+'"></input>');
 
       //create name label for state
-      plugSetDiv.appendChild(createNameLabel("State:", "name"));
+      $plugSetDiv.append('<p id="name">State:</p>');
 
-      //create on button
-      onBtn = createNameLabel("ON", "onButton");
-      onBtn.setAttribute("onclick", "plugOn();savePlugs();");
-      plugSetDiv.appendChild(onBtn);
-
-      //create off button
-      offBtn = createNameLabel("OFF", "offButton");
-      offBtn.setAttribute("onclick", "plugOff();savePlugs();");
-      plugSetDiv.appendChild(offBtn);
+      //create on/off button
+      $plugSetDiv.append('<p id="onButton" onclick="plugOn();savePlugs();">ON</p>');
+      $plugSetDiv.append('<p id="offButton" onclick="plugOff();savePlugs();">OFF</p>');
 
       //scheduler
-      var schedulerDiv = createDivId("scheduler");
-      var onTimesDiv = createDivId("onTimesDiv");
-      var offTimesDiv = createDivId("offTimesDiv");
+      $settingsDiv.append('<div id="scheduler"></div>');
+      var $schedulerDiv = $("#scheduler");
 
-      var onTimeInput = createInput("onTimesInput", "time", "00:00", "");
-      var offTimeInput = createInput("offTimesInput", "time", "00:00", "");
+      $schedulerDiv.append('<div id="onTimesDiv"></div>');
+      $schedulerDiv.append('<div id="offTimesDiv"></div>');
+      var $onTimesDiv = $("#onTimesDiv");
+      var $offTimesDiv = $("#offTimesDiv");
 
-      onTimesDiv.appendChild(onTimeInput);
-      offTimesDiv.appendChild(offTimeInput);
+      $onTimesDiv.append('<input id="onTimesInput" type="time" value="00:00"></input>');
+      $offTimesDiv.append('<input id="offTimesInput" type="time" value="00:00"></input>');
 
-      var onTimesAddBtn = createNameLabel("Add On Time","onTimesBtnAdd");
-      onTimesAddBtn.setAttribute("onclick", "addOnTime();setupPlugSettings(currentSelectionId);");
-      var offTimesAddBtn = createNameLabel("Add Off Time","offTimesBtnAdd");
-      offTimesAddBtn.setAttribute("onclick", "addOffTime();setupPlugSettings(currentSelectionId);");
+      $onTimesDiv.append('<p id="onTimesBtnAdd" onclick="addOnTime();setupPlugSettings(currentSelectionId);">Add ON Time</p>');
+      $offTimesDiv.append('<p id="offTimesBtnAdd" onclick="addOffTime();setupPlugSettings(currentSelectionId);">Add OFF Time</p>');
 
-      var onTimesDeleteBtn = createNameLabel("Delete On Time","onTimesBtnDelete");
-      onTimesDeleteBtn.setAttribute("onclick", "deleteOnTime();setupPlugSettings(currentSelectionId);");
-      var offTimesDeleteBtn = createNameLabel("Delete Off Time","offTimesBtnDelete");
-      offTimesDeleteBtn.setAttribute("onclick", "deleteOffTime();setupPlugSettings(currentSelectionId);");
+      $onTimesDiv.append('<p id="onTimesBtnDelete" onclick="deleteOnTime();setupPlugSettings(currentSelectionId);">Delete ON Time</p>');
+      $offTimesDiv.append('<p id="offTimesBtnDelete" onclick="deleteOffTime();setupPlugSettings(currentSelectionId);">Delete OFF Time</p>');
 
       var onArray = plugArray[currentPlugId].onTimes;
-      var onTimesList = createOnTimes(onArray);
-      onTimesDiv.appendChild(onTimesList);
+      $onTimesDiv.append('<div id="onTimesList"></div>');
+      $onTimesList = $('#onTimesList');
 
+      for(ont in onArray) {
+            $onTimesList.append('<p id="'+ont+'" onclick="setCurrentOnTime(this.id)" class="onTimeInstance">'+onArray[ont]+'</p>');
+      }
+
+      //create off times list
       var offArray = plugArray[currentPlugId].offTimes;
-      var offTimesList = createOnTimes(offArray);
-      offTimesDiv.appendChild(offTimesList);
+      $offTimesDiv.append('<div id="offTimesList"></div>');
+      $offTimesList = $('#offTimesList');
 
-      onTimesDiv.appendChild(onTimesAddBtn);
-      offTimesDiv.appendChild(offTimesAddBtn);
-      onTimesDiv.appendChild(onTimesDeleteBtn);
-      offTimesDiv.appendChild(offTimesDeleteBtn);
-
-      schedulerDiv.appendChild(onTimesDiv);
-      schedulerDiv.appendChild(offTimesDiv);
-
-      //put plug settings div into settings div
-      settingsDiv.appendChild(plugSetDiv);
-      settingsDiv.appendChild(schedulerDiv);
+      for(offt in offArray) {
+            $offTimesList.append('<p id="'+offt+'" onclick="setCurrentOffTime(this.id)" class="offTimeInstance">'+offArray[offt]+'</p>');
+      }
 
       //refresh on off button state and plug list
       refreshPlugToggle();
@@ -121,13 +107,13 @@ function refreshPlugToggle() {
      currentPlugState = plugArray[currentPlugId].state;
      //get on and off button elements
      var $onBtn = $("#onButton");
-     var $offBtn = $("$offButton");
+     var $offBtn = $("#offButton");
      //set color
      if(currentPlugState == 1) {
-          $onBtn.css(backgroundColor, "#BBB");
-          $offBtn.css(backgroundColor, "#666");
+          $onBtn.css('background-color', "#BBB");
+          $offBtn.css('background-color', "#666");
      } else {
-          $onBtn.css(backgroundColor, "#666");
-          $offBtn.css(backgroundColor, "#BBB");
+          $onBtn.css('background-color', "#666");
+          $offBtn.css('background-color', "#BBB");
      }
 }

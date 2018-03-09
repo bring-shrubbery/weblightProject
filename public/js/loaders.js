@@ -211,7 +211,7 @@ function updateSwitches() {
 
     //append name and state labels
     device.id = currentSwitch.name;
-    device.setAttribute("onclick","loadLights(false);setCurrentSelection(this.id);loadSwitches(true);setSelectionCookie('switch', this.id, "+Switch+");");
+    device.setAttribute("onclick","loadLights(false);loadPlugs(false);setCurrentSelection(this.id);loadSwitches(true);setSelectionCookie('switch', this.id, "+Switch+");");
     devicesDiv.appendChild(device);
   }
 }
